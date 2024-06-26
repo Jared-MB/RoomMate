@@ -1,0 +1,128 @@
+<main class="py-8 flex items-center justify-center">
+    <div>
+        <card-component class="p-6 pb-4">
+            <card-header>
+                <h1 class="text-3xl font-medium text-balance">Renta una casa o un departamento</h1>
+                <p class="text-zinc-400 text-sm">Llena el siguiente formulario para rentar tu casa o departamento</p>
+            </card-header>
+            <form [formGroup]="apartment" (ngSubmit)="onSubmit()">
+                <div class="grid grid-cols-2 gap-4">
+                    <card-body class="flex flex-col gap-y-4">
+                        <div class="flex flex-col gap-y-3">
+                            <h2 class="text-xl font-medium">Información general</h2>
+                            <div class="flex flex-col gap-y-2">
+                                <input-container>
+                                    <label-component>Nombre</label-component>
+                                    <input-component formControlName="name" name="name" placeholder="John Doe">
+                                        ></input-component>
+                                </input-container>
+                                <div class="grid grid-cols-2 gap-x-4">
+                                    <input-container>
+                                        <label-component>Correo</label-component>
+                                        <input-component formControlName="email" type="email" name="email"
+                                            placeholder="example@correo.com"></input-component>
+                                    </input-container>
+                                    <input-container>
+                                        <label-component>Teléfono</label-component>
+                                        <input-component formControlName="phone" type="number" name="phone"
+                                            placeholder="000 000 0000"></input-component>
+                                    </input-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-y-3">
+                            <h2 class="text-xl font-medium">Información de la propiedad</h2>
+                            <div class="flex flex-col gap-y-2">
+                                <input-container>
+                                    <label-component>Nombre</label-component>
+                                    <input-component formControlName="shortDescription"
+                                        placeholder="Casa amplia en el centro de la ciudad..."
+                                        name="address"></input-component>
+                                </input-container>
+                                <input-container>
+                                    <label-component>Descripción </label-component>
+                                    <textarea-component formControlName="longDescription"
+                                        placeholder="Casa amplia con 3 recámaras, 2 baños y cocina integral..."
+                                        name="address"></textarea-component>
+                                </input-container>
+                                <input-container>
+                                    <label-component>Dirección</label-component>
+                                    <input-component formControlName="address" placeholder="3 Oriente entre Av..."
+                                        name="address"></input-component>
+                                </input-container>
+                                <div class="grid grid-cols-3 gap-x-4">
+                                    <input-container>
+                                        <label-component>Tipo</label-component>
+                                        <select-component formControlName="type" name="type"
+                                            [options]="properties"></select-component>
+                                    </input-container>
+                                    <input-container>
+                                        <label-component>Precio <small>/mes</small></label-component>
+                                        <input-component formControlName="price" name="price" type="number"
+                                            icon="dollar-sign" placeholder="0"></input-component>
+                                    </input-container>
+                                    <input-container>
+                                        <label-component>Cuartos</label-component>
+                                        <input-component formControlName="rooms" name="rooms" type="number" icon="bed"
+                                            placeholder="0"></input-component>
+                                    </input-container>
+                                </div>
+                                <div class="pt-4">
+                                    <checkbox-component formControlName="isPetFriendly" htmlFor="isPetFriendly">
+                                        Pet friendly
+                                    </checkbox-component>
+                                    <checkbox-component formControlName="isSharedRoom" htmlFor="isSharedRoom">
+                                        Cuarto compartido
+                                    </checkbox-component>
+                                    <checkbox-component formControlName="isSharedBathroom" htmlFor="isSharedBathroom">
+                                        Baño compartido
+                                    </checkbox-component>
+                                    <checkbox-component formControlName="isSharedKitchen" htmlFor="isSharedKitchen">
+                                        Cocina compartida
+                                    </checkbox-component>
+                                </div>
+                            </div>
+                        </div>
+                    </card-body>
+                    <card-body class="flex flex-col gap-y-4">
+                        <h2 class="text-xl font-medium">Ubicación</h2>
+                        <map-component (locationSelected)="updateLocation($event.lat, $event.lng)"></map-component>
+                    </card-body>
+                    <card-body class="flex flex-col gap-y-4 col-span-2">
+                        <h2 class="text-xl font-medium">Imágenes</h2>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="grid grid-rows-[auto_auto_200px] gap-y-2">
+                                <label-component>Imagen 1</label-component>
+                                <input type="file" (change)="onFileSelected($event, 'image1')" name="image1">
+                                <div class="border border-zinc-300 border-dashed h-[200px] w-[400px]">
+                                    <img *ngIf="imagePreviews['image1']" [src]="imagePreviews['image1']"
+                                        alt="Vista previa 1" class="max-w-full h-full object-cover rounded">
+                                </div>
+                            </div>
+                            <div class="grid grid-rows-[auto_auto_200px] gap-y-2">
+                                <label-component>Imagen 2 <small>(opcional)</small></label-component>
+                                <input type="file" (change)="onFileSelected($event, 'image2')" name="image2">
+                                <div class="border border-zinc-300 border-dashed h-[200px]">
+                                    <img *ngIf="imagePreviews['image2']" [src]="imagePreviews['image2']"
+                                        alt="Vista previa 2" class="w-full h-24 object-cover rounded">
+                                </div>
+                            </div>
+                            <div class="grid grid-rows-[auto_auto_200px] gap-y-2">
+                                <label-component>Imagen 3 <small>(opcional)</small></label-component>
+                                <input type="file" (change)="onFileSelected($event, 'image3')" name="image3">
+                                <div class="border border-zinc-300 border-dashed h-[200px]">
+                                    <img *ngIf="imagePreviews['image3']" [src]="imagePreviews['image3']"
+                                        alt="Vista previa 3" class="w-full h-24 object-cover rounded">
+                                </div>
+                            </div>
+                        </div>
+                    </card-body>
+                </div>
+                <card-footer class="pt-8">
+                    <link-component href="/" [asButton]="true" variant="outline">Cancelar</link-component>
+                    <button-component type="submit">Guardar</button-component>
+                </card-footer>
+            </form>
+        </card-component>
+    </div>
+</main>

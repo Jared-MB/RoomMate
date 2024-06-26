@@ -1,0 +1,82 @@
+<app-layout>
+    <div class="grid grid-cols-[15dvw_1fr] gap-x-8">
+        <aside>
+            <form class="flex flex-col gap-y-4">
+                <div class="flex flex-col gap-y-3">
+                    <h4>Tipo de propiedad</h4>
+                    <div>
+                        <checkbox-component htmlFor="house">
+                            Casa
+                        </checkbox-component>
+                        <checkbox-component htmlFor="apartment">
+                            Apartamento
+                        </checkbox-component>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-y-3">
+                    <h4>Opciones</h4>
+                    <div>
+                        <checkbox-component htmlFor="room-shared">
+                            Cuarto compartido
+                        </checkbox-component>
+                        <checkbox-component htmlFor="bathroom-shared">
+                            Baño compartido
+                        </checkbox-component>
+                        <checkbox-component htmlFor="kitchen-shared">
+                            Cocina compartida
+                        </checkbox-component>
+                        <checkbox-component htmlFor="pet-friendly">
+                            Pet friendly
+                        </checkbox-component>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-y-3">
+                    <h4>Precio</h4>
+                    <div class="flex gap-x-2">
+                        <input-container>
+                            <label-component>
+                                Desde
+                            </label-component>
+                            <input-component type="number" icon="dollar-sign" placeholder="0"></input-component>
+                        </input-container>
+                        <input-container>
+                            <label-component>
+                                Hasta
+                            </label-component>
+                            <input-component icon="dollar-sign" placeholder="0"></input-component>
+                        </input-container>
+                    </div>
+                </div>
+                <button-component>Buscar</button-component>
+            </form>
+        </aside>
+        <main class="flex flex-col gap-y-4">
+            <header class="flex flex-row gap-x-4 items-center">
+                <h2 class="text-2xl font-medium text-purple-500">
+                    Los mejores calificados
+                </h2>
+                <rate-component [rate]="5"></rate-component>
+            </header>
+            <section class="grid grid-cols-4 gap-6">
+                @for (rent of rents; track rent.id){
+                <card-component>
+                    <card-image [src]='rent.images[0].url'></card-image>
+                    <card-body class="flex flex-col gap-y-2 items-start">
+                        <h3 class="text-lg font-medium">{{rent.shortDescription}}</h3>
+                        <h4>{{rent.address}}</h4>
+                        <rate-component [rate]="rent.rate"></rate-component>
+                        <span class="text-sm text-zinc-500">{{rent.type | rentType}}</span>
+                    </card-body>
+                    <card-footer class="justify-between">
+                        <span class="text-zinc-500">$<span
+                                class="text-2xl font-medium text-purple-500">{{rent.price}}</span><small>/mes</small></span>
+                        <link-component [href]="rent.id">
+                            Ver más
+                        </link-component>
+                    </card-footer>
+                </card-component>
+                }
+            </section>
+        </main>
+    </div>
+</app-layout>

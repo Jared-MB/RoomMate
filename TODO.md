@@ -1,0 +1,29 @@
+ - Mostrar ubicaciones
+    - Mostrar imagenes
+    - Mostrar detalles 
+        - Cuarto/Departament
+        - Universidad cercana
+        - Direccion
+        - Desgloce de informacion
+ - Registrar cuarto
+    - Registrar arrendatario
+        - Nombre
+        - Telefono
+        - Correo
+    - Registrar departamento
+        - Direccion
+        - pet friendly
+        - Cuarto compartido
+        - IsDepartament
+        - Baño compartido
+        - Precio
+ - Buscar departamento
+    - Obtener ubicación
+    - Mostrar departamentos cercanos
+    - Filtrar
+        - Precio
+        - Mascotas
+        - Baño compartido
+        - Cuarto compartido
+        - Departamento
+        - Universidad cercana

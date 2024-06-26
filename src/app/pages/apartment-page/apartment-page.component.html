@@ -1,0 +1,92 @@
+@if (!apartment){
+<div class="flex justify-center items-center h-96">
+    aw
+</div>
+
+}
+@else {
+<app-layout>
+    <main class="flex flex-col gap-y-8">
+        <div class="grid grid-cols-[60dvw_1fr] gap-8">
+            @if (images.length === 1){
+            <div class="grid">
+                <img [src]="images[0].url" class="w-full h-full object-cover object-center rounded-md">
+            </div>
+            }
+            @else if (images.length === 2){
+            <div class="grid grid-cols-[60%_1fr] gap-4">
+                <img [src]="images[0].url" class="w-full h-full object-cover object-center rounded-md">
+                <img [src]="images[1].url" class="w-full h-full object-cover object-center rounded-md">
+            </div>
+            }
+            @else if (images.length === 3){
+            <div class="grid grid-cols-2 gap-4">
+                <img [src]="images[0].url" class="w-full h-full object-cover object-center rounded-md">
+                <div class="grid grid-rows-2 gap-4">
+                    <img [src]="images[1].url" class="w-full h-full object-cover object-center rounded-md">
+                    <img [src]="images[2].url" class="w-full h-full object-cover object-center rounded-md">
+                </div>
+            </div>
+            }
+            <section class="flex flex-col gap-y-6">
+                <header class="flex flex-col gap-y-2">
+                    <h2 class="text-5xl text-balance font-bold">{{ apartment.shortDescription }}</h2>
+                    <h3 class="text-xl text-zinc-500 text-balance">{{ apartment.address }}</h3>
+                    <rate-component [rate]="apartment.rate"></rate-component>
+                </header>
+                <article class="flex flex-col gap-y-4">
+                    <div>
+                        <h4 class="text-2xl text-balance font-bold">Descripción</h4>
+                        <p class="text-zinc-500">{{ apartment.longDescription }}</p>
+                    </div>
+                    <div class="flex flex-row items-end gap-x-4">
+                        <lucide-angular name="user" [size]="32" class="self-center"></lucide-angular>
+                        <div>
+                            <h4 class="font-bold">{{apartment.lessor.name}}</h4>
+                            <span>{{apartment.lessor.phone}}</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-row items-end gap-x-4">
+                        <lucide-angular name="mail" [size]="32" class="self-center"></lucide-angular>
+                        <div>
+                            <h5 class="font-bold">Email</h5>
+                            <span>{{apartment.lessor.email}}</span>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </div>
+        <div class="grid grid-cols-[1fr_61%] gap-8">
+            <section class="flex flex-col gap-y-4">
+                <h3 class="text-2xl text-balance font-bold">Información</h3>
+                <div class="flex flex-row gap-4 items-center">
+                    <lucide-angular name="paw-print"></lucide-angular>
+                    <span class="text-lg">{{
+                        apartment.isPetFriendly
+                        ? 'Se permiten mascotas'
+                        : 'No se permiten mascotas'
+                        }}</span>
+                </div>
+                <div class="flex flex-row gap-4 items-center">
+                    <lucide-angular name="bath"></lucide-angular>
+                    <span class="text-lg">{{ apartment.isSharedBathroom ? 'Baño compartido' : 'Baño propio' }}</span>
+                </div>
+                <div class="flex flex-row gap-4 items-center">
+                    <lucide-angular name="cooking-pot"></lucide-angular>
+                    <span class="text-lg">{{ apartment.isSharedKitchen ? 'Cocina compartida' : 'Cocina propia' }}</span>
+                </div>
+                <div class="flex flex-row gap-4 items-center">
+                    <lucide-angular name="bed"></lucide-angular>
+                    <span class="text-lg">{{ apartment.isSharedRoom ? 'Habitación compartida' : 'Habitación propia'
+                        }}</span>
+                </div>
+            </section>
+            <section class="flex flex-col gap-y-4">
+                <h3 class="text-2xl text-balance font-bold">Ubicación</h3>
+                <map-component [coords]="{lat: apartment.lat ?? 0, lng: apartment.lng ?? 0}"></map-component>
+            </section>
+        </div>
+    </main>
+
+</app-layout>
+}

@@ -1,0 +1,8 @@
+<div
+    class="border h-10 w-full border-input bg-background flex items-center justify-start gap-x-2 px-3 py-2 has-[:focus]:outline-none rounded-md has-[:focus]:ring-offset-background has-[:focus]:ring-2 has-[:focus]:ring-ring has-[:focus]:ring-offset-1">
+    @if (icon){
+    <lucide-angular [name]="icon" class="my-icon"></lucide-angular>
+    }
+    <input [type]="type" [placeholder]="placeholder" [name]="name" [value]="value" (input)="onInput($event)"
+        class="flex w-full h-full border-none focus:ring-none bg-transparent text-sm file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground outline-none disabled:cursor-not-allowed disabled:opacity-50" />
+</div>

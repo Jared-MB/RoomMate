@@ -1,0 +1,9 @@
+<button [type]="type" class="{{ variant === 'primary' 
+    ? 'inline-flex px-4 py-2 gap-x-2 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-zinc-100 hover:bg-primary/90' 
+    : 'inline-flex px-4 py-2 gap-x-2 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground' 
+    }}">
+    <ng-content></ng-content>
+    @if(icon){
+    <lucide-angular [name]="icon" class="my-icon"></lucide-angular>
+    }
+</button>
