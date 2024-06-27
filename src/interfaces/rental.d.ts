@@ -20,5 +20,4 @@ export interface Apartment {
     longDescription: string
     lessor: Lessor,
     rooms: number
-    universities: { lat: number, lng: number, id: string }[]
 }

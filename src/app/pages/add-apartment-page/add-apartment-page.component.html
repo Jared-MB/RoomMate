@@ -101,14 +101,8 @@
                             <button-component (click)="clearMap()" variant="outline" icon="map-pin-off">Limpiar
                                 mapas</button-component>
                         </header>
-                        <map-component #location
+                        <map-component #location [coords]="universities"
                             (locationSelected)="updateLocation($event.lat, $event.lng)"></map-component>
-                    </card-body>
-                    <card-body class="flex flex-col gap-y-4">
-                        <h2 class="text-xl font-medium">Universidades cercanas</h2>
-
-                        <map-component defaultLabel="Universidad" [centerOn]="coords" #universities
-                            [single]="false"></map-component>
                     </card-body>
                 </div>
                 <card-body class="flex flex-col gap-y-4 md:col-span-2">

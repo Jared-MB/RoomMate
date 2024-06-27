@@ -23,7 +23,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   @Input() clickable = true
   @Input() defaultLabel = 'Ubicación'
-  @Input() coords: { lat: number, lng: number, id: string }[] | null = null
+  @Input() coords: { lat: number, lng: number, id: string, name?: string }[] | null = null
   @Input() centerOn: { lat: number, lng: number } | null = null
   @Input() single = true
   @Input() navigateOnClick = false
@@ -57,9 +57,9 @@ export class MapComponent implements OnInit, OnChanges {
           id: coord.id,
           label: {
             fontWeight: 'bold',
-            color: '#333',
-            fontSize: '1.2rem',
-            text: this.defaultLabel,
+            color: coord.name ? 'black' : '#333',
+            fontSize: coord.name ? '1.2rem' : '1rem',
+            text: coord.name ?? this.defaultLabel,
           } satisfies MapMarker['label']
         })).concat([{
           position: {
@@ -110,9 +110,9 @@ export class MapComponent implements OnInit, OnChanges {
         id: coord.id,
         label: {
           fontWeight: 'bold',
-          color: '#333',
-          fontSize: '1.2rem',
-          text: this.defaultLabel,
+          color: coord.name ? 'black' : '#333',
+          fontSize: coord.name ? '1.2rem' : '1rem',
+          text: coord.name ?? this.defaultLabel,
         } satisfies MapMarker['label']
       }))
       this.calculateNearby && this.filterNearbyLocations(+this.nearby);
@@ -143,7 +143,10 @@ export class MapComponent implements OnInit, OnChanges {
         } satisfies MapMarker['label']
       }
       if (this.single) {
-        this.markers = [newMarker];
+        this.markers = [
+          ...this.markers.filter(marker => !marker.id.includes('new-marker')),
+          newMarker
+        ];
       }
       else {
         this.markers.push(newMarker);

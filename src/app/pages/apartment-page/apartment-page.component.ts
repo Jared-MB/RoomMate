@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, of, switchMap } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Image } from '../../../interfaces/image';
+import { UniversityService } from '../../services/university.service';
+import { University } from '../../../interfaces/university';
 
 @Component({
   selector: 'app-apartment-page',
@@ -15,16 +17,21 @@ import { Image } from '../../../interfaces/image';
 export class ApartmentPageComponent implements OnInit {
 
   apartment!: Apartment
+  universities: University[] = []
   images: Image[] = []
 
   constructor(
     private readonly apartmentService: ApartmentService,
+    private readonly universityService: UniversityService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
+    this.universityService.getUniversities().subscribe(universities => {
+      this.universities = universities
+    })
     this.activatedRoute.params.pipe(
       switchMap(({ id }) => this.apartmentService.getApartment(id)),
       catchError(_error => of(null))

@@ -92,8 +92,7 @@
         </section>
         <section class="flex flex-col gap-y-4">
             <h3 class="text-2xl text-balance font-bold">Ubicación</h3>
-            <map-component [clickable]="false" [single]="false" defaultLabel="Universidad"
-                [coords]="apartment.universities"
+            <map-component [clickable]="false" [single]="false" [coords]="universities"
                 [centerOn]="{lat: apartment.lat , lng: apartment.lng}"></map-component>
         </section>
     </div>

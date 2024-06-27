@@ -4,6 +4,7 @@ import { Apartment } from '../../../interfaces/rental';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectOption } from '../../../interfaces/select';
+import { UniversityService } from '../../services/university.service';
 
 @Component({
   selector: 'app-near-page',
@@ -12,7 +13,7 @@ import { SelectOption } from '../../../interfaces/select';
 })
 export class NearPageComponent implements OnInit {
   rents: Apartment[] = []
-  coords: { lat: number, lng: number, id: string }[] = []
+  coords: { lat: number, lng: number, id: string, name?: string }[] = []
 
   nearKm: SelectOption[] = [{
     label: '1 km',
@@ -27,6 +28,7 @@ export class NearPageComponent implements OnInit {
 
   constructor(
     private readonly apartmentService: ApartmentService,
+    private readonly universityService: UniversityService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) { }
@@ -47,10 +49,19 @@ export class NearPageComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.universityService.getUniversities().subscribe(universities => {
+      this.coords = [
+        ...this.coords,
+        ...universities
+      ]
+    })
     this.route.queryParams.pipe().subscribe(params => {
       this.filters.patchValue(params as any)
       this.apartmentService.getApartments(new URLSearchParams(params)).subscribe(apartments => {
-        this.coords = apartments.map(apartment => ({ lat: apartment.lat, lng: apartment.lng, id: apartment.id }))
+        this.coords = [
+          ...this.coords,
+          ...apartments.map(apartment => ({ lat: apartment.lat, lng: apartment.lng, id: apartment.id }))
+        ]
         this.rents = apartments
       })
     })

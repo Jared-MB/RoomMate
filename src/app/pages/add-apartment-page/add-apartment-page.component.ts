@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { SelectOption } from '../../../interfaces/select';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApartmentService } from '../../services/apartment.service';
@@ -7,23 +7,26 @@ import { catchError, of } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MapComponent } from '../../components/map/map.component';
+import { UniversityService } from '../../services/university.service';
+import { University } from '../../../interfaces/university';
 
 @Component({
   selector: 'app-add-department-page',
   templateUrl: './add-apartment-page.component.html',
   styles: ``,
 })
-export class AddApartmentPageComponent {
+export class AddApartmentPageComponent implements OnInit {
 
   @ViewChild('location') locationMap!: MapComponent;
-  @ViewChild('universities') universityMap!: MapComponent;
 
+  universities: University[] = []
   disabled = false;
 
   constructor(
-    @Inject(ApartmentService) private readonly apartmentService: ApartmentService,
+    private readonly apartmentService: ApartmentService,
+    private readonly universityService: UniversityService,
     private readonly router: Router,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
   ) { }
 
   properties: SelectOption[] = [
@@ -36,6 +39,12 @@ export class AddApartmentPageComponent {
       label: 'Apartamento'
     },
   ]
+
+  ngOnInit(): void {
+    this.universityService.getUniversities().subscribe(universities => {
+      this.universities = universities
+    })
+  }
 
   onSubmit() {
 
@@ -50,14 +59,6 @@ export class AddApartmentPageComponent {
       this.snackBar.open('Complete los campos requeridos', 'Cerrar')
       console.log(lessor.error?.flatten().fieldErrors)
       console.log(apartment.error?.flatten().fieldErrors)
-      this.disabled = false
-      return
-    }
-
-    const universities = this.universityMap.markers.filter(marker => marker.id !== 'center').map(marker => marker.position)
-    if (universities.length === 0) {
-      ref.dismiss()
-      this.snackBar.open('Agregue al menos una universidad cercana', 'Cerrar')
       this.disabled = false
       return
     }
@@ -81,7 +82,6 @@ export class AddApartmentPageComponent {
     data.append('lng', apartment.data.lng.toString());
     data.append('shortDescription', apartment.data.shortDescription);
     data.append('longDescription', apartment.data.longDescription);
-    data.append('universities', JSON.stringify(universities));
     data.append('rooms', apartment.data.rooms.toString());
 
     // Agregar las imágenes si existen
@@ -160,9 +160,6 @@ export class AddApartmentPageComponent {
   clearMap() {
     if (this.locationMap) {
       this.locationMap.clearMarkers();
-    }
-    if (this.universityMap) {
-      this.universityMap.clearMarkers();
     }
   }
 

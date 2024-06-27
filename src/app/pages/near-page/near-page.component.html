@@ -67,7 +67,7 @@
         </header>
         <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div class="md:col-span-4">
-                <map-component [calculateNearby]="true" [nearby]="nearBy.value"
+                <map-component [calculateNearby]="true" [nearby]="nearBy.value" [clickable]="false"
                     (locationsCalculated)="getLocations($event)" [navigateOnClick]="true"
                     [coords]="coords"></map-component>
             </div>
