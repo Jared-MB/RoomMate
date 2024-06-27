@@ -3,11 +3,14 @@ import { Observable } from 'rxjs';
 import { z } from 'zod'
 import { Apartment } from '../../interfaces/rental';
 import { HttpClient } from '@angular/common/http';
+import { environments } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApartmentService {
+
+  api = environments.api
 
   constructor(
     private readonly http: HttpClient
@@ -49,14 +52,14 @@ export class ApartmentService {
   }
 
   createApartment(apartment: FormData): Observable<Apartment> {
-    return this.http.post<Apartment>('http://localhost:3000/apartment', apartment)
+    return this.http.post<Apartment>(`${this.api}/apartment`, apartment)
   }
 
   getApartments(queryParams?: URLSearchParams): Observable<Apartment[]> {
-    return this.http.get<Apartment[]>(`http://localhost:3000/apartment?${queryParams?.toString() ?? ''}`)
+    return this.http.get<Apartment[]>(`${this.api}/apartment?${queryParams?.toString() ?? ''}`)
   }
 
   getApartment(id: string): Observable<Apartment> {
-    return this.http.get<Apartment>(`http://localhost:3000/apartment/${id}`)
+    return this.http.get<Apartment>(`${this.api}/apartment/${id}`)
   }
 }

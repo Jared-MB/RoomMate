@@ -18,6 +18,8 @@ export class AddApartmentPageComponent {
   @ViewChild('location') locationMap!: MapComponent;
   @ViewChild('universities') universityMap!: MapComponent;
 
+  disabled = false;
+
   constructor(
     @Inject(ApartmentService) private readonly apartmentService: ApartmentService,
     private readonly router: Router,
@@ -37,6 +39,7 @@ export class AddApartmentPageComponent {
 
   onSubmit() {
 
+    this.disabled = true
     const ref = this.snackBar.open('Creando departamento...')
 
     const apartment = this.apartmentService.validateApartment(this.apartment.value)
@@ -47,6 +50,7 @@ export class AddApartmentPageComponent {
       this.snackBar.open('Complete los campos requeridos', 'Cerrar')
       console.log(lessor.error?.flatten().fieldErrors)
       console.log(apartment.error?.flatten().fieldErrors)
+      this.disabled = false
       return
     }
 
@@ -54,6 +58,7 @@ export class AddApartmentPageComponent {
     if (universities.length === 0) {
       ref.dismiss()
       this.snackBar.open('Agregue al menos una universidad cercana', 'Cerrar')
+      this.disabled = false
       return
     }
 
@@ -95,6 +100,7 @@ export class AddApartmentPageComponent {
       if (!apartment) {
         ref.dismiss()
         this.snackBar.open('Error al crear el departamento', 'Cerrar')
+        this.disabled = false
         return
       }
       ref.dismiss()

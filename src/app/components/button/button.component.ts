@@ -11,5 +11,6 @@ export class ButtonComponent {
   @Input() icon: string | null = null;
 
   @Input() type: 'button' | 'submit' = 'button';
+  @Input() disabled = false;
 
 }
