@@ -30,6 +30,7 @@ export class ApartmentService {
     image3: z.instanceof(File).nullable(),
     shortDescription: z.string().min(5),
     longDescription: z.string().min(5),
+    rooms: z.preprocess((val) => Number(val), z.number().positive()),
   })
 
   private lessorSchema = z.object({
@@ -51,8 +52,8 @@ export class ApartmentService {
     return this.http.post<Apartment>('http://localhost:3000/apartment', apartment)
   }
 
-  getApartments(): Observable<Apartment[]> {
-    return this.http.get<Apartment[]>('http://localhost:3000/apartment')
+  getApartments(queryParams?: URLSearchParams): Observable<Apartment[]> {
+    return this.http.get<Apartment[]>(`http://localhost:3000/apartment?${queryParams?.toString() ?? ''}`)
   }
 
   getApartment(id: string): Observable<Apartment> {

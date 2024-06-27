@@ -12,11 +12,13 @@ export interface Apartment {
     isSharedBathroom: boolean;
     isSharedKitchen: boolean;
     id: string
-    lat?: number
-    lng?: number
+    lat: number
+    lng: number
     rate: number
     images: Image[]
     shortDescription: string
     longDescription: string
-    lessor: Lessor
+    lessor: Lessor,
+    rooms: number
+    universities: { lat: number, lng: number, id: string }[]
 }

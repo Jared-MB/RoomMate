@@ -54,13 +54,23 @@
         </form>
     </aside>
     <main class="flex flex-col gap-y-4">
-        <header class="flex flex-row gap-x-4 items-center">
+        <header class="flex flex-row justify-between gap-x-4 items-center">
             <h2 class="text-2xl font-medium text-purple-500">
-                Los mejores calificados
+                Más cercanos a ti
             </h2>
-            <rate-component [rate]="5"></rate-component>
+            <input-container class="!flex flex-row !items-start">
+                <label-component>
+                    Cerca de
+                </label-component>
+                <select-component [formControl]="nearBy" [options]="nearKm" name=""></select-component>
+            </input-container>
         </header>
         <section class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="md:col-span-4">
+                <map-component [calculateNearby]="true" [nearby]="nearBy.value"
+                    (locationsCalculated)="getLocations($event)" [navigateOnClick]="true"
+                    [coords]="coords"></map-component>
+            </div>
             @for (rent of rents; track rent.id){
             <card-component>
                 <card-image [src]='rent.images[0].url'></card-image>
@@ -73,7 +83,7 @@
                 <card-footer class="justify-between">
                     <span class="text-zinc-500">$<span
                             class="text-2xl font-medium text-purple-500">{{rent.price}}</span><small>/mes</small></span>
-                    <link-component [href]="rent.id">
+                    <link-component [href]="'/' + rent.id">
                         Ver más
                     </link-component>
                 </card-footer>

@@ -12,6 +12,7 @@ import { RadioComponent } from './radio/radio.component';
 import { SelectComponent } from './select/select.component';
 import { MapComponent } from './map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { ImageGridComponent } from './image-grid/image-grid.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
     RateComponent,
     RadioComponent,
     SelectComponent,
-    MapComponent
+    MapComponent,
+    ImageGridComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { GoogleMapsModule } from '@angular/google-maps';
     RateComponent,
     RadioComponent,
     SelectComponent,
-    MapComponent
+    MapComponent,
+    ImageGridComponent
   ]
 })
 export class ComponentsModule { }

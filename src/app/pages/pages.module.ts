@@ -7,10 +7,13 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { AddApartmentPageComponent } from './add-apartment-page/add-apartment-page.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 import { LayoutComponent } from './layout/layout.component';
 import { ApartmentPageComponent } from './apartment-page/apartment-page.component';
 import { CarouselModule } from '@coreui/angular';
 import { icons, LucideAngularModule } from 'lucide-angular';
+import { NearPageComponent } from './near-page/near-page.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,7 @@ import { icons, LucideAngularModule } from 'lucide-angular';
     AddApartmentPageComponent,
     LayoutComponent,
     ApartmentPageComponent,
+    NearPageComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +31,8 @@ import { icons, LucideAngularModule } from 'lucide-angular';
     ReactiveFormsModule,
     MatSnackBarModule,
     CarouselModule,
+    MatMenuModule,
+    MatIconModule,
     LucideAngularModule.pick(icons),
   ]
 })

@@ -37,6 +37,7 @@ export class ApartmentPageComponent implements OnInit {
           this.router.navigate(['/'])
           return
         }
+        console.log(apartment)
         this.apartment = apartment
         this.images = apartment.images
         return

@@ -2,14 +2,16 @@
     <header class="flex flex-row justify-between items-center">
         <div class="flex flex-col gap-y-2">
             <h1 class="text-purple-500 text-4xl">
-                Encuentra tu próximo hogar
+                <a routerLink="/">RoomMate</a> <span class="mx-2 hidden md:inline-flex">|</span> <small
+                    class="hidden md:inline-flex">Encuentra tu
+                    próximo hogar</small>
             </h1>
-            <p class="text-zinc-500">
+            <p class="text-zinc-500 hidden md:inline-block">
                 Busca departamentos, casas y más en tu área deseada.
             </p>
         </div>
-        <div class="flex flex-row gap-x-4 items-center">
-            <link-component [asButton]="true" href="near" icon="map-pin" variant="outline">
+        <div class="hidden md:flex flex-row gap-x-4 items-center">
+            <link-component [asButton]="true" href="/near" icon="map-pin" variant="outline">
                 Buscar cerca de mi
             </link-component>
             <link-component icon="upload" [asButton]="true" href="/add-department">
@@ -17,8 +19,22 @@
             </link-component>
 
         </div>
+        <button class="md:hidden" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+            <lucide-angular name="align-right" class="text-purple-500" size="32"></lucide-angular>
+        </button>
+        <mat-menu #menu="matMenu">
+            <a routerLink="/near" class="flex flex-row items-center gap-x-2 w-full p-3 pt-2">
+                <lucide-angular name="map-pin"></lucide-angular>
+                <span>Buscar cerca de mi</span>
+            </a>
+            <hr class="border border-zinc-200" />
+            <a routerLink="/add-department" class="flex flex-row items-center gap-x-2 w-full p-3 pb-2">
+                <lucide-angular name="upload"></lucide-angular>
+                <span>Publicar departamento</span>
+            </a>
+        </mat-menu>
     </header>
     <div class="py-8">
-        <ng-content></ng-content>
+        <router-outlet></router-outlet>
     </div>
 </div>

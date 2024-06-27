@@ -1,0 +1,51 @@
+@if (images.length === 1){
+<div class="grid relative max-h-[80dvh]">
+    <link-component routerLink=".." [asButton]="true" variant="outline" icon="corner-up-left"
+        class="absolute z-10 top-0 left-0">
+        Volver
+    </link-component>
+    <div class="overflow-hidden rounded-md">
+        <img [src]="images[0].url"
+            class="w-full h-full max-h-[80dvh] object-cover object-center rounded-md hover:scale-105 transition-transform duration-300">
+    </div>
+</div>
+}
+@else if (images.length === 2){
+<div class="grid grid-cols-[60%_1fr] gap-4 relative max-h-[80dvh]">
+    <link-component routerLink=".." [asButton]="true" variant="outline" icon="corner-up-left"
+        class="absolute z-10 top-0 left-0">
+        Volver
+    </link-component>
+    <div class="overflow-hidden rounded-md">
+        <img [src]="images[0].url"
+            class="w-full h-full max-h-[80dvh] object-cover object-center rounded-md hover:scale-105 transition-transform duration-300">
+    </div>
+    <div class="overflow-hidden rounded-md">
+        <img [src]="images[1].url"
+            class="w-full h-full object-cover object-center rounded-md hover:scale-105 transition-transform duration-300">
+    </div>
+</div>
+}
+@else if (images.length === 3){
+<div class="grid grid-cols-2 gap-4 relative max-h-[80dvh]">
+    <link-component routerLink=".." [asButton]="true" variant="outline" icon="corner-up-left"
+        class="absolute z-10 top-0 left-0">
+        Volver
+    </link-component>
+    <div class="overflow-hidden rounded-md">
+        <img [src]="images[0].url"
+            class="w-full h-full max-h-[80dvh] object-cover aspect-[9/16] object-center rounded-md hover:scale-105 transition-transform duration-300">
+    </div>
+    <div class="grid grid-rows-2 gap-4">
+        <div class="overflow-hidden rounded-md">
+            <img [src]="images[1].url"
+                class="w-full h-full max-h-[38.5dvh] aspect-square object-cover object-center rounded-md hover:scale-105 transition-transform duration-300">
+
+        </div>
+        <div class="overflow-hidden rounded-md">
+            <img [src]="images[2].url"
+                class="w-full h-full max-h-[38.5dvh]  aspect-square object-cover object-center rounded-md hover:scale-105 transition-transform duration-300">
+        </div>
+    </div>
+</div>
+}

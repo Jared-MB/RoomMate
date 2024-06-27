@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'input-container',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class InputContainerComponent {
-
+  @Input() class: string = '';
 }

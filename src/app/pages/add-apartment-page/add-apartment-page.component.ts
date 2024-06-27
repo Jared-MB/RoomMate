@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { SelectOption } from '../../../interfaces/select';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ApartmentService } from '../../services/apartment.service';
@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MapComponent } from '../../components/map/map.component';
 
 @Component({
   selector: 'app-add-department-page',
@@ -13,6 +14,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styles: ``,
 })
 export class AddApartmentPageComponent {
+
+  @ViewChild('location') locationMap!: MapComponent;
+  @ViewChild('universities') universityMap!: MapComponent;
 
   constructor(
     @Inject(ApartmentService) private readonly apartmentService: ApartmentService,
@@ -32,13 +36,24 @@ export class AddApartmentPageComponent {
   ]
 
   onSubmit() {
+
+    const ref = this.snackBar.open('Creando departamento...')
+
     const apartment = this.apartmentService.validateApartment(this.apartment.value)
     const lessor = this.apartmentService.validateLessor(this.apartment.value)
 
     if (!apartment.success || !lessor.success) {
+      ref.dismiss()
       this.snackBar.open('Complete los campos requeridos', 'Cerrar')
       console.log(lessor.error?.flatten().fieldErrors)
       console.log(apartment.error?.flatten().fieldErrors)
+      return
+    }
+
+    const universities = this.universityMap.markers.filter(marker => marker.id !== 'center').map(marker => marker.position)
+    if (universities.length === 0) {
+      ref.dismiss()
+      this.snackBar.open('Agregue al menos una universidad cercana', 'Cerrar')
       return
     }
 
@@ -61,6 +76,8 @@ export class AddApartmentPageComponent {
     data.append('lng', apartment.data.lng.toString());
     data.append('shortDescription', apartment.data.shortDescription);
     data.append('longDescription', apartment.data.longDescription);
+    data.append('universities', JSON.stringify(universities));
+    data.append('rooms', apartment.data.rooms.toString());
 
     // Agregar las imágenes si existen
     if (apartment.data.image1) {
@@ -73,15 +90,16 @@ export class AddApartmentPageComponent {
       data.append('image3', apartment.data.image3);
     }
 
-    console.log(Object.fromEntries((data as any).entries()))
 
     this.apartmentService.createApartment(data).pipe(catchError(_error => of(null))).subscribe(apartment => {
       if (!apartment) {
+        ref.dismiss()
         this.snackBar.open('Error al crear el departamento', 'Cerrar')
         return
       }
+      ref.dismiss()
       this.snackBar.open('Departamento creado', 'Cerrar')
-      this.router.navigate([''])
+      this.router.navigateByUrl(`/${apartment.id}`)
     })
 
   }
@@ -111,8 +129,11 @@ export class AddApartmentPageComponent {
 
   imagePreviews: { [key: string]: string } = {};
 
+  public coords: { lat: number, lng: number } | null = null
+
   updateLocation(lat: number, lng: number) {
     this.apartment.patchValue({ lat, lng });
+    this.coords = { lat, lng }
   }
 
   onFileSelected(event: Event, imageField: string) {
@@ -127,6 +148,15 @@ export class AddApartmentPageComponent {
         this.imagePreviews[imageField] = reader.result as string;
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  clearMap() {
+    if (this.locationMap) {
+      this.locationMap.clearMarkers();
+    }
+    if (this.universityMap) {
+      this.universityMap.clearMarkers();
     }
   }
 
