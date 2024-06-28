@@ -14,6 +14,9 @@ import { ApartmentPageComponent } from './apartment-page/apartment-page.componen
 import { CarouselModule } from '@coreui/angular';
 import { icons, LucideAngularModule } from 'lucide-angular';
 import { NearPageComponent } from './near-page/near-page.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { NearPageComponent } from './near-page/near-page.component';
     CarouselModule,
     MatMenuModule,
     MatIconModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
     LucideAngularModule.pick(icons),
   ]
 })

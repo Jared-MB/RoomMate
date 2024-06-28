@@ -5,6 +5,7 @@ import { InputComponentComponent } from './input-component/input-component.compo
 import { LabelComponentComponent } from './label-component/label-component.component';
 import { icons, LucideAngularModule } from 'lucide-angular';
 import { TextareaComponentComponent } from './textarea-component/textarea-component.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -16,7 +17,9 @@ import { TextareaComponentComponent } from './textarea-component/textarea-compon
   ],
   imports: [
     CommonModule,
-    LucideAngularModule.pick(icons)
+    LucideAngularModule.pick(icons),
+
+    MatAutocompleteModule
   ],
   exports: [
     InputContainerComponent,

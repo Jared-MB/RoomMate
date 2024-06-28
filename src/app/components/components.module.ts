@@ -13,6 +13,7 @@ import { SelectComponent } from './select/select.component';
 import { MapComponent } from './map/map.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ImageGridComponent } from './image-grid/image-grid.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,7 @@ import { ImageGridComponent } from './image-grid/image-grid.component';
     InputModule,
     LucideAngularModule.pick(icons),
     RouterModule,
-    GoogleMapsModule
+    GoogleMapsModule,
   ],
   exports: [
     ButtonComponent,

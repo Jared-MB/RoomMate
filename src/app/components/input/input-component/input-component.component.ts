@@ -1,5 +1,6 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatAutocomplete } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'input-component',

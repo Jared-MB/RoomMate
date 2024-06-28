@@ -5,6 +5,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SelectOption } from '../../../interfaces/select';
 import { UniversityService } from '../../services/university.service';
+import { University } from '../../../interfaces/university';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-near-page',
@@ -26,12 +28,39 @@ export class NearPageComponent implements OnInit {
     value: '10'
   }]
 
+  universities: University[] = []
+  universitiesFiltered: University[] = []
+
   constructor(
     private readonly apartmentService: ApartmentService,
     private readonly universityService: UniversityService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
   ) { }
+
+  center: { lat: number, lng: number, name: string, id: string } | null = null
+  university = new FormControl('')
+
+  searchUniversity() {
+    if (!this.university.value) {
+      this.universitiesFiltered = this.universities
+      return
+    }
+    this.universitiesFiltered = this.universities.filter(university => university.name.toLowerCase().includes((this.university.value as string).toLowerCase()))
+  }
+
+  displayFn(university: University): string {
+    return university && university.name ? university.name : '';
+  }
+
+  onSelect(event: MatAutocompleteSelectedEvent) {
+    this.center = {
+      lat: event.option.value.lat,
+      lng: event.option.value.lng,
+      name: event.option.value.name,
+      id: event.option.value.id
+    }
+  }
 
   nearBy = new FormControl('5', {
     nonNullable: true
@@ -46,10 +75,13 @@ export class NearPageComponent implements OnInit {
     isPetFriendly: new FormControl(false),
     minPrice: new FormControl(0),
     maxPrice: new FormControl(0),
+
   })
 
   ngOnInit(): void {
     this.universityService.getUniversities().subscribe(universities => {
+      this.universities = universities
+      this.universitiesFiltered = universities
       this.coords = [
         ...this.coords,
         ...universities

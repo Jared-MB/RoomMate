@@ -24,7 +24,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() clickable = true
   @Input() defaultLabel = 'Ubicación'
   @Input() coords: { lat: number, lng: number, id: string, name?: string }[] | null = null
-  @Input() centerOn: { lat: number, lng: number } | null = null
+  @Input() centerOn: { lat: number, lng: number, id?: string, name?: string } | null = null
   @Input() single = true
   @Input() navigateOnClick = false
   @Input() nearby = '5'
@@ -48,7 +48,7 @@ export class MapComponent implements OnInit, OnChanges {
           fontWeight: 'bold',
           color: '#333',
           fontSize: '1.2rem',
-          text: 'Ubicación',
+          text: this.centerOn.name ? this.centerOn.name : 'Ubicación',
         } satisfies MapMarker['label']
       }]
       if (this.coords) {
@@ -71,10 +71,11 @@ export class MapComponent implements OnInit, OnChanges {
             fontWeight: 'bold',
             color: '#333',
             fontSize: '1.2rem',
-            text: 'Ubicación',
+            text: this.centerOn.name ? this.centerOn.name : 'Ubicación',
           } satisfies MapMarker['label']
         }])
       }
+      this.calculateNearby && this.filterNearbyLocations(+this.nearby);
     }
   }
 
@@ -89,9 +90,10 @@ export class MapComponent implements OnInit, OnChanges {
           fontWeight: 'bold',
           color: '#333',
           fontSize: '1.2rem',
-          text: 'Ubicación',
+          text: this.centerOn.name ? this.centerOn.name : 'Ubicación',
         } satisfies MapMarker['label']
       }])
+      this.calculateNearby && this.filterNearbyLocations(+this.nearby);
       console.log('centerOn')
       // this.markers = [{
       //   position: this.centerOn,
@@ -100,7 +102,7 @@ export class MapComponent implements OnInit, OnChanges {
       // fontWeight: 'bold',
       //     color: '#333',
       // fontSize: '1.2rem',
-      //     text: 'Ubicación',
+      //     text: this.centerOn.name ? this.centerOn.name : 'Ubicación',
       //   } satisfies MapMarker['label']
       // }]
     }
@@ -121,7 +123,12 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   onMarkerClick(marker: Marker) {
-    this.navigateOnClick && this.router.navigate([marker.id])
+    if (this.navigateOnClick) {
+      console.log(marker)
+      if ((marker.label as any).text === 'Ubicación') {
+        this.router.navigate([marker.id])
+      }
+    }
   }
 
   onMapClick(event: google.maps.MapMouseEvent) {
