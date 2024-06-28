@@ -93,8 +93,6 @@ export class MapComponent implements OnInit, OnChanges {
           text: this.centerOn.name ? this.centerOn.name : 'Ubicación',
         } satisfies MapMarker['label']
       }])
-      this.calculateNearby && this.filterNearbyLocations(+this.nearby);
-      console.log('centerOn')
       // this.markers = [{
       //   position: this.centerOn,
       //   id: 'center',
@@ -117,9 +115,8 @@ export class MapComponent implements OnInit, OnChanges {
           text: coord.name ?? this.defaultLabel,
         } satisfies MapMarker['label']
       }))
-      this.calculateNearby && this.filterNearbyLocations(+this.nearby);
-      console.log('coords', this.coords)
     }
+    this.calculateNearby && this.filterNearbyLocations(+this.nearby);
   }
 
   onMarkerClick(marker: Marker) {
@@ -205,7 +202,8 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   filterNearbyLocations(maxDistanceKm: number) {
-    if (this.center) {
+    if (this.center || this.centerOn) {
+      console.log(this.markers)
       this.markers = this.markers.filter(marker => {
         const distance = this.getDistance(
           this.center!.lat,
@@ -215,6 +213,7 @@ export class MapComponent implements OnInit, OnChanges {
         );
         return distance <= maxDistanceKm;
       });
+      console.log(this.markers)
       this.locationsCalculated.emit(this.markers.map(marker => ({ lat: marker.position.lat, lng: marker.position.lng, id: marker.id })))
     }
   }
